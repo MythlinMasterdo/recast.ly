@@ -1,10 +1,19 @@
 class App extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
-      videoList: window.exampleVideoData,
-      currentVideo: window.exampleVideoData[0]
+      videoList: window.output || window.exampleVideoData,
+      currentVideo: window.output[0] || window.exampleVideoData[0]
     };
+    console.log('current video passed into video player: ', this.state.currentVideo);
+
+  }
+
+  componentDidMount () {
+    console.log('Component DID MOUNT!');
+    window.searchYouTube({ key: window.YOUTUBE_API_KEY, query: 'cats', max: 4 }, function(videoList) { console.log('videoList ', videoList); window.output = videoList; });
+    console.log('window output: ', window.output);
   }
 
   handler(event) {
@@ -15,6 +24,7 @@ class App extends React.Component {
   }
  
   render() {
+    console.log('current video passed into video player: ', this.state.currentVideo);
     return (
       <div>
         <Nav />
@@ -22,7 +32,7 @@ class App extends React.Component {
           <VideoPlayer video={this.state.currentVideo}/>
         </div>
         <div className="col-md-5">
-          <VideoList videos={window.exampleVideoData} handler={this.handler.bind(this)} />
+          <VideoList videos={this.state.videoList} handler={this.handler.bind(this)} />
         </div>
       </div>
     );

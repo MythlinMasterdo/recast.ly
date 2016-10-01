@@ -1,3 +1,4 @@
+
 var searchYouTube = (options, callback) => {
   // TODO
   $.ajax({
@@ -7,12 +8,11 @@ var searchYouTube = (options, callback) => {
       key: options.key,
       q: options.query,
       maxResults: options.max,
-      videoEmbeddable: true,
       part: 'snippet',
+      videoEmbeddable: true,
       type: 'video'
     },
     success: function(data) {
-
       callback(data.items);
     },
     error: function(error) {
