@@ -67,6 +67,7 @@ describe('searchYouTube', function() {
   // Same shape means that the data should have the same keys, nested the same way as `exampleVideoData`,
   // though it will not necessarily have the same values.
   it('should GET videos with the same shape as `exampleVideoData`', function(done) {
+
     var options = {
       key: window.YOUTUBE_API_KEY,
       query: 'react',
@@ -77,6 +78,8 @@ describe('searchYouTube', function() {
     xhr.restore();
 
     searchYouTube(options, (data) => {
+      console.log('data: ', data);
+      console.log('exampleVideoData: ' ,  window.exampleVideoData);
       expect(hasSameShape(data, window.exampleVideoData)).to.be.true;
       done();
     });
