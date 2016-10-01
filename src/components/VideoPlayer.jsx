@@ -1,5 +1,4 @@
 var VideoPlayer = (props) => {
-  console.log('props passed into video player: ', props);
   return (
   <div className="video-player">
     <div className="embed-responsive embed-responsive-16by9">
