@@ -3,18 +3,18 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      videoList: window.output || window.exampleVideoData,
-      currentVideo: window.output[0] || window.exampleVideoData[0]
+      videoList: window.exampleVideoData,
+      currentVideo: window.exampleVideoData[0]
     };
     console.log('current video passed into video player: ', this.state.currentVideo);
-
   }
 
   componentDidMount () {
-    console.log('Component DID MOUNT!');
-    window.searchYouTube({ key: window.YOUTUBE_API_KEY, query: 'cats', max: 4 }, function(videoList) { console.log('videoList ', videoList); window.output = videoList; });
-    console.log('window output: ', window.output);
+    window.searchYouTube({ key: window.YOUTUBE_API_KEY, query: 'cats', max: 4 }, 
+      (videoList) => { this.setState({ videoList: videoList}); });
   }
+
+
 
   handler(event) {
     this.setState({
