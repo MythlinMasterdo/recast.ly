@@ -6,28 +6,32 @@ class App extends React.Component {
       videoList: window.exampleVideoData,
       currentVideo: window.exampleVideoData[0]
     };
-    console.log('current video passed into video player: ', this.state.currentVideo);
   }
 
   componentDidMount () {
-    window.searchYouTube({ key: window.YOUTUBE_API_KEY, query: 'cats', max: 4 }, 
-      (videoList) => { this.setState({ videoList: videoList}); });
+    this.getNewVideos('Milkshake');
   }
 
+  getNewVideos (query) {
+    window.searchYouTube({ key: window.YOUTUBE_API_KEY, query: query, max: 5 }, 
+    (videoList) => { this.setState({ videoList: videoList, currentVideo: videoList[0]}); });
+  }
 
+  searchHandler(searchInput) {
+    console.log(searchInput);
+    this.getNewVideos(searchInput);
+  }
 
   handler(event) {
     this.setState({
       currentVideo: event 
     });
-    console.log('state: ', this.state);
   }
  
   render() {
-    console.log('current video passed into video player: ', this.state.currentVideo);
     return (
       <div>
-        <Nav />
+        <Nav searchHandler={this.searchHandler.bind(this)}/>
         <div className="col-md-7">
           <VideoPlayer video={this.state.currentVideo}/>
         </div>
@@ -46,7 +50,9 @@ window.App = App;
 
 
 
-// step 1: define a handler function in the App component that will update App's state to a new video
-// step 2: pass that handler function into App's children (eventually VideoListEntry) as props
-// step 3: set an onclick listener on VideoListEntry's titles that will call App's handler function when clicked
-// step 4: make the song that we send into VideoPlayer equal to whatever App's currentVideo state is set to
+// step 1: make query input a variable
+// step 2: make a SearchInputHandler that changes 'query' in searchYouTube based on an input
+// step 3: pass SearchInputHandler down to Nav component (remember to bind the keyword 'this' to the App instance)
+// step 4: pass SearchInputHandler down to the Search component
+// step 5: set up onChange listener on the input field that runs SearchInputHandler(value of text in field)
+// step 6: worry about throttling shit
